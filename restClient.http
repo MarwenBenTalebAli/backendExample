@@ -1,0 +1,139 @@
+@hostname= http://localhost:8000
+
+// API Documentation 
+http://localhost:8000/api-docs
+
+###
+
+//signup new user1
+POST {{hostname}}/api/signup HTTP/1.1
+content-type: application/json
+
+{
+    "name":"user1", 
+    "email":"user1@user1.com", 
+    "password":"user1user1", 
+    "cPassword":"user1user1"
+}
+
+###
+
+//signin the user1
+POST {{hostname}}/api/signin HTTP/1.1
+content-type: application/json
+
+{
+  "email": "user1@user1.com",
+  "password": "user1user1"
+}
+
+###
+
+//signin the admin
+POST {{hostname}}/api/signin HTTP/1.1
+content-type: application/json
+
+{
+  "email": "admin@admin.com",
+  "password": "adminadmin"
+}
+
+###
+
+//check if admin role //  id user1 ---> 60bb8834ad0fd30cb489c460  and id admin ---> 60bb97907e1af80e9c5bb8e7
+POST {{hostname}}/api/isadmin HTTP/1.1
+content-type: application/json
+
+{
+  "loggedInUserId": "60bb97907e1af80e9c5bb8e7"
+}
+ 
+
+###
+@tokenValue=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGJiOTc5MDdlMWFmODBlOWM1YmI4ZTciLCJyb2xlIjoxLCJpYXQiOjE2MjI5MjAyNjJ9.CYzu6DrZrbdswMCLunpApmrSNNHhocGQ-EpkxQzL0nw
+POST {{hostname}}/api/category/add-category HTTP/1.1
+token: Bearer {{tokenValue}}
+Content-Type: form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="cImage"; filename="1.png"
+content-type: image/png
+
+< ./1.png
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+content-type: application/json
+
+{
+  "cName":"category 1", 
+  "cDescription": "category desc 1", 
+  "cStatus": "Active",
+  "cImage": "image1"
+}
+
+###
+
+POST {{hostname}}/api/category/add-category HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{tokenValue}}
+
+{
+  "cName":"category 2", 
+  "cDescription": "category desc 2", 
+  "cStatus": "Disabled"
+}
+
+###
+GET {{hostname}}/api/category/all-category HTTP/1.1
+
+###
+
+POST {{hostname}}/api/user/signle-user HTTP/1.1
+content-type: application/json
+
+{
+  "uId": "60bb8834ad0fd30cb489c460"
+}
+
+###
+GET {{hostname}}/api/user/all-user HTTP/1.1
+
+
+###
+
+POST {{hostname}}/api/user/add-user HTTP/1.1
+content-type: application/json
+
+{
+    "allProduct":"product1", 
+    "user":"user1", 
+    "amount":"123", 
+    "transactionId":"123SE", 
+    "address":"address 1", 
+    "phone":"12345678"
+}
+
+###
+
+GET {{hostname}}/api/product/all-product  HTTP/1.1
+
+###
+POST {{hostname}}/api/product/add-product  HTTP/1.1
+
+{
+    "pName":"product 1",
+    "pDescription":"product desc 1",
+    "pPrice":"100",
+    "pQuantity":"20",
+    "pCategory":{"$oid":"60bbf66b8db8eeaf1116abfa"},
+    "pOffer":"10",
+    "pStatus":"Active"
+}
+
+
+###
+POST {{hostname}}/api/product/product-by-category  HTTP/1.1
+
+{
+    "catId":"60bbf66b8db8eeaf1116abfa"
+}
